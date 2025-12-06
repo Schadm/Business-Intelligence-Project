@@ -337,32 +337,6 @@ CURRENT_TIMESTAMP,
 'star.factreceipt'
 FROM star.factreceipt;
 
-CREATE TABLE vault.l_Cart(
-hk_cart_total VARCHAR(200) NOT NULL PRIMARY KEY,
-hk_cart VARCHAR(50) NOT NULL,
-hk_payment VARCHAR(50) NOT NULL,
-hk_location VARCHAR(50) NOT NULL,
-hk_seller VARCHAR(50) NOT NULL,
-load_date TIMESTAMP NOT NULL
-);
-INSERT INTO vault.l_cart(
-hk_cart_total,
-hk_cart,
-hk_payment,
-hk_location,
-hk_seller,
-load_date
-) SELECT DISTINCT
-MD5(CAST(receipt_id AS TEXT))||'|'
-|| MD5(CAST(payment_id AS TEXT))||'|'
-|| MD5(CAST(location_id AS TEXT))||'|'
-|| MD5(CAST(seller_id AS TEXT)),
-MD5(CAST(receipt_id AS TEXT)),
-MD5(CAST(payment_id AS TEXT)),
-MD5(CAST(location_id AS TEXT)),
-MD5(CAST(seller_id AS TEXT)),
-CURRENT_TIMESTAMP(0)
-FROM star.factreceipt;
 
 CREATE TABLE vault.l_CartProduct(
 hk_cart_product VARCHAR(100) NOT NULL PRIMARY KEY,
@@ -442,4 +416,43 @@ CURRENT_TIMESTAMP(0),
 'star.factreceipt',
 tax_rate,
 currency
+FROM star.factreceipt;
+
+CREATE TABLE vault.l_Cart(
+hk_cart_total VARCHAR(200) NOT NULL PRIMARY KEY,
+hk_cart VARCHAR(50) NOT NULL,
+hk_payment VARCHAR(50) NOT NULL,
+hk_location VARCHAR(50) NOT NULL,
+hk_seller VARCHAR(50) NOT NULL,
+load_date TIMESTAMP NOT NULL,
+CONSTRAINT l_cart_h_hubcart
+	FOREIGN KEY (hk_cart)
+	REFERENCES vault.hubcart (hk_cart),
+CONSTRAINT l_cart_h_hubpayment
+	FOREIGN KEY (hk_payment)
+	REFERENCES vault.hubpayment (hk_payment)
+CONSTRAINT l_cart_h_hublocation
+	FOREIGN KEY (hk_location)
+	REFERENCES vault.hublocation (hk_location)
+CONSTRAINT l_cart_h_hubseller
+	FOREIGN KEY (hk_seller)
+	REFERENCES vault.hubseller (hk_seller)
+);
+INSERT INTO vault.l_cart(
+hk_cart_total,
+hk_cart,
+hk_payment,
+hk_location,
+hk_seller,
+load_date
+) SELECT DISTINCT
+MD5(CAST(receipt_id AS TEXT))||'|'
+|| MD5(CAST(payment_id AS TEXT))||'|'
+|| MD5(CAST(location_id AS TEXT))||'|'
+|| MD5(CAST(seller_id AS TEXT)),
+MD5(CAST(receipt_id AS TEXT)),
+MD5(CAST(payment_id AS TEXT)),
+MD5(CAST(location_id AS TEXT)),
+MD5(CAST(seller_id AS TEXT)),
+CURRENT_TIMESTAMP(0)
 FROM star.factreceipt;
