@@ -440,5 +440,6 @@ currency
 MD5(CAST(receipt_id AS TEXT)),
 CURRENT_TIMESTAMP(0),
 'star.factreceipt',
-tax_rate
+tax_rate,
+currency
 FROM star.factreceipt;
