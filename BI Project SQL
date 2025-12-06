@@ -422,6 +422,7 @@ load_date TIMESTAMP NOT NULL,
 loadend_date TIMESTAMP,
 record_source VARCHAR(50) NOT NULL,
 tax_rate DECIMAL(10,2) NOT NULL,
+currency VARCHAR(3) NOT NULL,
 CONSTRAINT s_satcart
 	PRIMARY KEY (hk_cart,load_date),
 CONSTRAINT s_satcart_h_hubcart
@@ -433,7 +434,8 @@ INSERT INTO vault.satcart(
 hk_cart,
 load_date,
 record_source,
-tax_rate
+tax_rate,
+currency
 )SELECT DISTINCT
 MD5(CAST(receipt_id AS TEXT)),
 CURRENT_TIMESTAMP(0),
