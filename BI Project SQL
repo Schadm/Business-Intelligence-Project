@@ -430,10 +430,10 @@ CONSTRAINT l_cart_h_hubcart
 	REFERENCES vault.hubcart (hk_cart),
 CONSTRAINT l_cart_h_hubpayment
 	FOREIGN KEY (hk_payment)
-	REFERENCES vault.hubpayment (hk_payment)
+	REFERENCES vault.hubpayment (hk_payment),
 CONSTRAINT l_cart_h_hublocation
 	FOREIGN KEY (hk_location)
-	REFERENCES vault.hublocation (hk_location)
+	REFERENCES vault.hublocation (hk_location),
 CONSTRAINT l_cart_h_hubseller
 	FOREIGN KEY (hk_seller)
 	REFERENCES vault.hubseller (hk_seller)
